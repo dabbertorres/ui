@@ -24,7 +24,7 @@ namespace ui
 			Desktop();
 			~Desktop();
 
-			void applyTheme(Theme&& thm);
+			void applyTheme(const Theme& thm);
 
 			Window& getWindow(Window::Handle handle) const;
 			Window& getFocused() const;

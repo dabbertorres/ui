@@ -23,6 +23,9 @@ namespace ui
 			const Properties& get(const std::string& elem) const;
 			const std::string& get(const std::string& elem, const std::string& prop) const;
 
+			Elements::const_iterator begin() const;
+			Elements::const_iterator end() const;
+
 		private:
 			Elements properties;
 	};

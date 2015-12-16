@@ -19,7 +19,7 @@ namespace ui
 		return *focus;
 	}
 
-	void Desktop::applyTheme(Theme&& thm)
+	void Desktop::applyTheme(const Theme& thm)
 	{
 		theme = thm;
 
