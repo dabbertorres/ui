@@ -1,12 +1,15 @@
 #include "ParseException.hpp"
 
-namespace ui
+namespace dbr
 {
-	ParseException::ParseException(const std::string& arg)
-	:	std::runtime_error(arg)
-	{}
+	namespace ui
+	{
+		ParseException::ParseException(const std::string& arg)
+		:	std::runtime_error(arg)
+		{}
 
-	ParseException::ParseException(const char* arg)
-	:	std::runtime_error(arg)
-	{}
+		ParseException::ParseException(const char* arg)
+		:	std::runtime_error(arg)
+		{}
+	}
 }

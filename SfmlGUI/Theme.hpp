@@ -4,47 +4,50 @@
 #include <unordered_map>
 #include <string>
 
-namespace ui
+namespace dbr
 {
-	class Theme
+	namespace ui
 	{
-		public:
-			struct Property
-			{
-				public:
-					Property() = default;
-					Property(const std::string& str);
-					Property(std::string&& str);
+		class Theme
+		{
+			public:
+				struct Property
+				{
+					public:
+						Property() = default;
+						Property(const std::string& str);
+						Property(std::string&& str);
 
-					operator bool() const;
-					operator int() const;
-					operator float() const;
-					operator std::string() const;
+						operator bool() const;
+						operator int() const;
+						operator float() const;
+						operator std::string() const;
+					
+					private:
+						std::string value;
+				};
 
-				private:
-					std::string value;
-			};
+				// map of elements to properties to values
+				using Properties = std::unordered_map<std::string, Property>;
+				using Elements = std::unordered_map<std::string, Properties>;
 
-			// map of elements to properties to values
-			using Properties = std::unordered_map<std::string, Property>;
-			using Elements = std::unordered_map<std::string, Properties>;
-			
-			Theme();
-			~Theme();
+				Theme();
+				~Theme();
 
-			void load(std::istream& istream);
+				void load(std::istream& istream);
 
-			void add(const std::string& elem, const std::string& prop, const std::string& val);
+				void add(const std::string& elem, const std::string& prop, const std::string& val);
 
-			const Properties& get(const std::string& elem) const;
-			const Property& get(const std::string& elem, const std::string& prop) const;
+				const Properties& get(const std::string& elem) const;
+				const Property& get(const std::string& elem, const std::string& prop) const;
 
-			Elements::const_iterator begin() const;
-			Elements::const_iterator end() const;
+				Elements::const_iterator begin() const;
+				Elements::const_iterator end() const;
 
-		private:
-			Elements properties;
-	};
+			private:
+				Elements properties;
+		};
+	}
 }
 
 #endif

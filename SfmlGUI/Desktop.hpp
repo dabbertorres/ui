@@ -19,45 +19,48 @@
 #include "Theme.hpp"
 #include "Window.hpp"
 
-namespace ui
+namespace dbr
 {
-	class Desktop : public EventReceiver, public Themeable, public sf::Drawable
+	namespace ui
 	{
-		public:
-			Desktop();
+		class Desktop : public EventReceiver, public Themeable, public sf::Drawable
+		{
+			public:
+				Desktop();
 
-			Desktop(const Desktop& other) = delete;
-			Desktop(Desktop&& other) = default;
+				Desktop(const Desktop& other) = delete;
+				Desktop(Desktop&& other) = default;
 
-			~Desktop();
+				~Desktop();
 
-			void applyTheme(const Theme& thm) override;
+				void applyTheme(const Theme& thm) override;
 
-			Window& getWindow(Window::Handle handle) const;
-			Window& getFocused() const;
+				Window& getWindow(Window::Handle handle) const;
+				Window& getFocused() const;
 
-			void update(const sf::Event& event) override;
+				void update(const sf::Event& event) override;
 
-		private:
-			void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+			private:
+				void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
-			static void timerUpdate(Desktop* desktop);
+				static void timerUpdate(Desktop* desktop);
 
-			// used to block timerUpdateThread until construction of Desktop is finished
-			// also, unfortunately, the order here matters. (constructNotice and constructMutex before timerUpdateThread)
-			// otherwise, timerUpdate() on timerUpdateThread may try to use these before they have finished being constructed.
-			std::condition_variable constructNotice;
-			std::mutex constructMutex;
+				// used to block timerUpdateThread until construction of Desktop is finished
+				// also, unfortunately, the order here matters. (constructNotice and constructMutex before timerUpdateThread)
+				// otherwise, timerUpdate() on timerUpdateThread may try to use these before they have finished being constructed.
+				std::condition_variable constructNotice;
+				std::mutex constructMutex;
 
-			std::thread timerUpdateThread;
-			std::atomic<bool> running;
+				std::thread timerUpdateThread;
+				std::atomic<bool> running;
 
-			mutable std::unordered_map<Window::Handle, Window> windows;
-			Window* focus;
-			Theme theme;
+				mutable std::unordered_map<Window::Handle, Window> windows;
+				Window* focus;
+				Theme theme;
 
-			std::vector<sf::Vertex> vertices;
-	};
+				std::vector<sf::Vertex> vertices;
+		};
+	}
 }
 
 #endif

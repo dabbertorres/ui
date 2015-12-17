@@ -1,10 +1,13 @@
 #include "EventReceiver.hpp"
 
-namespace ui
+namespace dbr
 {
-	EventReceiver::EventReceiver()
-	{}
+	namespace ui
+	{
+		EventReceiver::EventReceiver()
+		{}
 
-	EventReceiver::~EventReceiver()
-	{}
+		EventReceiver::~EventReceiver()
+		{}
+	}
 }

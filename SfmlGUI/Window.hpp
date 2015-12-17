@@ -13,29 +13,32 @@
 
 #include "Control.hpp"
 
-namespace ui
+namespace dbr
 {
-	class Window : public Control, public sf::Drawable
+	namespace ui
 	{
-		public:
-			using Handle = unsigned int;
-			
-			Window();
-			~Window();
+		class Window : public Control, public sf::Drawable
+		{
+			public:
+				using Handle = unsigned int;
 
-			void applyTheme(const Theme& thm) override;
+				Window();
+				~Window();
 
-			std::mutex& getMutex();
+				void applyTheme(const Theme& thm) override;
 
-			void update(const sf::Event& event) override;
+				std::mutex& getMutex();
 
-		private:
-			void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+				void update(const sf::Event& event) override;
 
-			std::vector<sf::Vertex> vertices;
+			private:
+				void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
-			std::mutex syncMutex;
-	};
+				std::vector<sf::Vertex> vertices;
+
+				std::mutex syncMutex;
+		};
+	}
 }
 
 #endif

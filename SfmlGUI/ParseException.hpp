@@ -3,23 +3,26 @@
 
 #include <stdexcept>
 
-namespace ui
+namespace dbr
 {
-	class ParseException : public std::runtime_error
+	namespace ui
 	{
-		public:
-			ParseException() = delete;
-			explicit ParseException(const std::string& arg);
-			explicit ParseException(const char* arg);
+		class ParseException : public std::runtime_error
+		{
+			public:
+				ParseException() = delete;
+				explicit ParseException(const std::string& arg);
+				explicit ParseException(const char* arg);
 
-			ParseException(const ParseException& other) = default;
-			ParseException(ParseException&& other) = default;
+				ParseException(const ParseException& other) = default;
+				ParseException(ParseException&& other) = default;
 
-			ParseException& operator=(const ParseException& other) = default;
-			ParseException& operator=(ParseException&& other) = default;
+				ParseException& operator=(const ParseException& other) = default;
+				ParseException& operator=(ParseException&& other) = default;
 
-			~ParseException() = default;
-	};
+				~ParseException() = default;
+		};
+	}
 }
 
 #endif

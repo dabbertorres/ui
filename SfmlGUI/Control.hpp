@@ -4,19 +4,22 @@
 #include "EventReceiver.hpp"
 #include "Themeable.hpp"
 
-namespace ui
+namespace dbr
 {
-	class Control : public EventReceiver, public Themeable
+	namespace ui
 	{
-		public:
-			Control();
-			virtual ~Control();
+		class Control : public EventReceiver, public Themeable
+		{
+			public:
+				Control();
+				virtual ~Control();
 
-			bool isVisible() const;
+				bool isVisible() const;
 
-		private:
-			bool visible;
-	};
+			private:
+				bool visible;
+		};
+	}
 }
 
 #endif

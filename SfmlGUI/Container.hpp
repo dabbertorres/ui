@@ -5,17 +5,20 @@
 
 #include <vector>
 
-namespace ui
+namespace dbr
 {
-	class Container : public Control
+	namespace ui
 	{
-		public:
-			Container();
-			virtual ~Container();
+		class Container : public Control
+		{
+			public:
+				Container();
+				virtual ~Container();
 
-		private:
-			std::vector<Control*> children;
-	};
+			private:
+				std::vector<Control*> children;
+		};
+	}
 }
 
 #endif

@@ -1,10 +1,13 @@
 #include "Container.hpp"
 
-namespace ui
+namespace dbr
 {
-	Container::Container()
-	{}
+	namespace ui
+	{
+		Container::Container()
+		{}
 
-	Container::~Container()
-	{}
+		Container::~Container()
+		{}
+	}
 }

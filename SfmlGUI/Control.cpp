@@ -1,16 +1,19 @@
 #include "Control.hpp"
 
-namespace ui
+namespace dbr
 {
-	Control::Control()
-	:	visible(true)
-	{}
-
-	Control::~Control()
-	{}
-
-	bool Control::isVisible() const
+	namespace ui
 	{
-		return visible;
+		Control::Control()
+		:	visible(true)
+		{}
+
+		Control::~Control()
+		{}
+
+		bool Control::isVisible() const
+		{
+			return visible;
+		}
 	}
 }

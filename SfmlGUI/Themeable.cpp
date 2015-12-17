@@ -1,10 +1,13 @@
 #include "Themeable.hpp"
 
-namespace ui
+namespace dbr
 {
-	Themeable::Themeable()
-	{}
+	namespace ui
+	{
+		Themeable::Themeable()
+		{}
 
-	Themeable::~Themeable()
-	{}
+		Themeable::~Themeable()
+		{}
+	}
 }

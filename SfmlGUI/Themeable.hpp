@@ -5,16 +5,19 @@
 
 #include "Theme.hpp"
 
-namespace ui
+namespace dbr
 {
-	class Themeable
+	namespace ui
 	{
-		public:
-			Themeable();
-			virtual ~Themeable();
+		class Themeable
+		{
+			public:
+				Themeable();
+				virtual ~Themeable();
 
-			virtual void applyTheme(const Theme& theme) = 0;
-	};
+				virtual void applyTheme(const Theme& theme) = 0;
+		};
+	}
 }
 
 #endif

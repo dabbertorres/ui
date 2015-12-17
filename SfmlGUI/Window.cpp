@@ -1,30 +1,33 @@
 #include "Window.hpp"
 
-namespace ui
+namespace dbr
 {
-	Window::Window()
-	{}
-
-	Window::~Window()
-	{}
-
-	void Window::applyTheme(const Theme& thm)
+	namespace ui
 	{
-		
-	}
+		Window::Window()
+		{}
 
-	std::mutex& Window::getMutex()
-	{
-		return syncMutex;
-	}
+		Window::~Window()
+		{}
 
-	void Window::update(const sf::Event& event)
-	{
+		void Window::applyTheme(const Theme& thm)
+		{
 
-	}
+		}
 
-	void Window::draw(sf::RenderTarget& target, sf::RenderStates states) const
-	{
-		target.draw(vertices.data(), vertices.size(), sf::PrimitiveType::Quads, states);
+		std::mutex& Window::getMutex()
+		{
+			return syncMutex;
+		}
+
+		void Window::update(const sf::Event& event)
+		{
+
+		}
+
+		void Window::draw(sf::RenderTarget& target, sf::RenderStates states) const
+		{
+			target.draw(vertices.data(), vertices.size(), sf::PrimitiveType::Quads, states);
+		}
 	}
 }
