@@ -9,6 +9,7 @@
 int main(int argc, char** argv)
 {
 	ui::Theme theme;
+	ui::Desktop desktop;
 
 	{
 		std::ifstream fin("test.thm");
@@ -31,12 +32,11 @@ int main(int argc, char** argv)
 		std::cout << elem.first << ":\n";
 		for(auto& prop : elem.second)
 		{
-			std::cout << '\t' << prop.first << ": " << prop.second << '\n';
+			std::cout << '\t' << prop.first << ": " << static_cast<std::string>(prop.second) << '\n';
 		}
 	}
 	std::cout << std::endl;
 
-	ui::Desktop desktop;
 	desktop.applyTheme(theme);
 
 	return 0;

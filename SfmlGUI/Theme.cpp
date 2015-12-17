@@ -16,10 +16,66 @@ namespace
 		ReadingPropertyName,
 		ReadingPropertyValue,
 	};
+
+	static bool isExtraAlnum(char c)
+	{
+		return std::isalnum(c) || c == '-' || c == '+' || c == '.';
+	}
+
+	static std::string stringTrim(const std::string& str)
+	{
+		auto left = std::find_if_not(str.begin(), str.end(), std::isspace);
+		auto right = std::find_if_not(str.rbegin(), str.rend(), std::isspace).base();
+
+		return {left, right};
+	}
 }
 
 namespace ui
 {
+	Theme::Property::Property(const std::string& str)
+	:	value(str)
+	{}
+
+	Theme::Property::Property(std::string&& str)
+	: value(str)
+	{}
+
+	Theme::Property::operator bool() const
+	{
+		bool ret = false;
+
+		std::istringstream iss(value);
+		iss >> std::boolalpha >> ret >> std::noboolalpha;
+
+		return ret;
+	}
+
+	Theme::Property::operator int() const
+	{
+		int ret = 0;
+
+		std::istringstream iss(value);
+		iss >> ret;
+
+		return ret;
+	}
+
+	Theme::Property::operator float() const
+	{
+		float ret = 0;
+
+		std::istringstream iss(value);
+		iss >> ret;
+
+		return ret;
+	}
+
+	Theme::Property::operator std::string() const
+	{
+		return value;
+	}
+
 	Theme::Theme()
 	{
 		// need to fill in default property values and stuff
@@ -30,7 +86,7 @@ namespace ui
 
 	void Theme::load(std::istream& istream)
 	{
-		using Property = std::pair<std::string, std::string>;
+		using PropertyPair = std::pair<std::string, Property>;
 
 		// read whole file
 		istream.seekg(0, std::ios::end);
@@ -42,7 +98,7 @@ namespace ui
 
 		std::list<std::string> selectedElements;
 
-		std::list<Property> selectedProperties;
+		std::list<PropertyPair> selectedProperties;
 		std::string currentProperty;
 
 		// parsing state tracking
@@ -77,7 +133,7 @@ namespace ui
 					}
 
 					// if it's alnum, then that's bad
-					if(std::isalnum(*tempIt))
+					if(isExtraAlnum(*tempIt))
 					{
 						std::ostringstream oss;
 						oss << "Unexpected whitespace (id: " << static_cast<int>(val) << ") at line " << lineNum;
@@ -91,7 +147,7 @@ namespace ui
 				if(val == '\n')
 					++lineNum;
 			}
-			else if(std::isalnum(val))
+			else if(isExtraAlnum(val))
 			{
 				if(parseState == ParseState::ElementSelector)
 				{
@@ -138,11 +194,7 @@ namespace ui
 						{
 							std::string elem(begin, it);
 
-							// whitespace trim
-							auto left = std::find_if_not(elem.begin(), elem.end(), std::isspace);
-							auto right = std::find_if_not(elem.rbegin(), elem.rend(), std::isspace).base();
-
-							selectedElements.emplace_back(left, right);
+							selectedElements.emplace_back(stringTrim(elem));
 
 							parseState = ParseState::PropertyDefinitions;
 						}
@@ -189,11 +241,7 @@ namespace ui
 						{
 							std::string name(begin, it);
 
-							// whitespace trim
-							auto left = std::find_if_not(name.begin(), name.end(), std::isspace);
-							auto right = std::find_if_not(name.rbegin(), name.rend(), std::isspace).base();
-
-							currentProperty.assign(left, right);
+							currentProperty = stringTrim(name);
 
 							parseState = ParseState::ReadingPropertyValue;
 
@@ -225,11 +273,7 @@ namespace ui
 						{
 							std::string value(begin, it);
 
-							// whitespace trim
-							auto left = std::find_if_not(value.begin(), value.end(), std::isspace);
-							auto right = std::find_if_not(value.rbegin(), value.rend(), std::isspace).base();
-
-							selectedProperties.emplace_back(currentProperty, std::string{left, right});
+							selectedProperties.emplace_back(currentProperty, stringTrim(value));
 
 							parseState = ParseState::PropertyDefinitions;
 						}
@@ -264,7 +308,7 @@ namespace ui
 
 	void Theme::add(const std::string& elem, const std::string& prop, const std::string& val)
 	{
-		properties.at(elem).at(prop) = val;
+		properties[elem][prop] = val;
 	}
 
 	const Theme::Properties& Theme::get(const std::string& elem) const
@@ -272,7 +316,7 @@ namespace ui
 		return properties.at(elem);
 	}
 
-	const std::string& Theme::get(const std::string& elem, const std::string& prop) const
+	const Theme::Property& Theme::get(const std::string& elem, const std::string& prop) const
 	{
 		return properties.at(elem).at(prop);
 	}

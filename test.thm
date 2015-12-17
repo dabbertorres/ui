@@ -3,12 +3,12 @@
 element1, element2
 {
 	# other comment
-	propertyName1: value1;
-	propertyName2: value2; # some other comment
+	propertyName1: true;
+	propertyName2: 0; # some other comment
 }
 
 element3,
 {
-	prop: v;
-	otherProp: val;
+	prop: -0.52;
+	otherProp: hello;
 }

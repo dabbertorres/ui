@@ -8,6 +8,16 @@ namespace ui
 	Window::~Window()
 	{}
 
+	void Window::applyTheme(const Theme& thm)
+	{
+		
+	}
+
+	std::mutex& Window::getMutex()
+	{
+		return syncMutex;
+	}
+
 	void Window::update(const sf::Event& event)
 	{
 

@@ -1,13 +1,24 @@
 #include "Desktop.hpp"
 
+#include <SFML/System/Clock.hpp>
+
 namespace ui
 {
 	Desktop::Desktop()
-	:	focus(nullptr)
-	{}
+	:	focus(nullptr),
+		timerUpdateThread(timerUpdate, this),
+		running(true)
+	{
+		constructNotice.notify_all();
+	}
 
 	Desktop::~Desktop()
-	{}
+	{
+		running = false;
+
+		if(timerUpdateThread.joinable())
+			timerUpdateThread.join();
+	}
 
 	Window& Desktop::getWindow(Window::Handle handle) const
 	{
@@ -24,6 +35,10 @@ namespace ui
 		theme = thm;
 
 		// do some updating stuff...
+		for(auto& win : windows)
+		{
+			win.second.applyTheme(theme);
+		}
 	}
 
 	void Desktop::update(const sf::Event& event)
@@ -49,5 +64,18 @@ namespace ui
 
 		for(auto& win : windows)
 			target.draw(win.second, states);
+	}
+
+	void Desktop::timerUpdate(Desktop* desktop)
+	{
+		std::unique_lock<std::mutex> constructionLock(desktop->constructMutex);
+		desktop->constructNotice.wait(constructionLock);
+
+		sf::Clock clock;
+
+		while(desktop->running)
+		{
+
+		}
 	}
 }
